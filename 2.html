@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本京都</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+    /* 左侧导航栏样式 */
+    .sidebar {
+        position: fixed;
+        top: 70px; /* 与顶部导航栏高度一致 */
+        left: 0;
+        height: calc(100vh - 70px);
+        width: 250px;
+        background-color: #2c3e50;
+        color: white;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-menu {
+        list-style: none;
+        padding: 20px 0;
+    }
+
+    .sidebar-menu li {
+        padding: 0 20px;
+    }
+
+    .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        color: #ecf0f1;
+        text-decoration: none;
+        transition: all 0.3s;
+        border-radius: 6px;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .sidebar-menu .menu-title {
+        padding: 15px 20px 5px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #bdc3c7;
+        letter-spacing: 1px;
+    }
+
+    /* 侧边栏触发器 */
+    .sidebar-toggle {
+        position: fixed;
+        left: 20px;
+        top: 85px;
+        z-index: 1000;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s;
+    }
+
+    .sidebar-toggle:hover {
+        background-color: #2980b9;
+    }
+
+    /* 主内容区调整 */
+    main {
+        transition: margin-left 0.3s ease;
+        padding: 80px 20px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .sidebar.active ~ main {
+        margin-left: 250px;
+    }
+
+    /* 遮罩层 */
+    .sidebar-backdrop {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 998;
+        display: none;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    /* 导航栏 */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background-color: #2c3e50;
+        color: white;
+        z-index: 997;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+    }
+
+    .nav-links a {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+        color: #3498db;
+    }
+
+    /* 内容样式 */
+    .section {
+        margin-bottom: 60px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        color: #3498db;
+        margin: 30px 0 20px;
+    }
+
+    p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #34495e;
+        margin-bottom: 20px;
+    }
+
+    strong {
+        color: #2c3e50;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    li {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #34495e;
+    }
+
+    .highlight-box {
+        background-color: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 0 4px 4px 0;
+    }
+
+    /* 底部版权信息 */
+    .footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 40px 0;
+        margin-top: 60px;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+        color: #3498db;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+        /* 隐藏顶部导航栏 */
+        .navbar {
+            display: none;
+        }
+        
+        /* 调整侧边栏位置 */
+        .sidebar {
+            top: 0;
+            height: 100vh;
+            width: 220px;
+        }
+        
+        .sidebar-backdrop {
+            top: 0;
+        }
+        
+        /* 调整触发器位置 */
+        .sidebar-toggle {
+            top: 20px;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+        }
+        
+        /* 调整内容区 */
+        main {
+            padding-top: 80px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+        
+        .container {
+            padding: 0 15px;
+        }
+        
+        /* 调整侧边栏激活时的主内容区 */
+        .sidebar.active ~ main {
+            margin-left: 0;
+        }
+        
+        /* 调整页脚 */
+        .footer-content {
+            text-align: center;
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+    }
+
+    /* 小屏手机适配 */
+    @media (max-width: 480px) {
+        .sidebar-toggle {
+            width: 40px;
+            height: 40px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        h2 {
+            font-size: 1.3rem;
+        }
+        
+        p, li {
+            font-size: 1rem;
+        }
+    }
+
+    .sidebar-menu a:has(.fa-circle-o) {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .sidebar-menu a:has(.fa-check-circle) {
+        opacity: 1;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航栏触发器 -->
+    <button class="sidebar-toggle">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- 遮罩层 -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="menu-title">主导航</li>
+            <li><a href="index.html#home"><i class="fa fa-home"></i> 首页</a></li>
+            <li><a href="index.html#travel-map"><i class="fa fa-map"></i> 足迹地图</a></li>
+            <li><a href="experience.html" class="active"><i class="fa fa-camera"></i> 旅行体验</a></li>
+            <li><a href="dream.html"><i class="fa fa-star"></i> 梦想目的地</a></li>
+
+            <li class="menu-title">已打卡地区</li>
+            <li><a href="index.html#travel-map"><i class="fa fa-check-circle"></i> 日本·京都</a></li>
+            <li><a href="index.html#travel-map"><i class="fa fa-check-circle"></i> 冰岛·雷克雅未克</a></li>
+            <li><a href="#"><i class="fa fa-check-circle"></i> 中国·江南</a></li>
+
+            <li class="menu-title">待解锁地区</li>
+            <li><a href="index.html#travel-map"><i class="fa fa-circle-o"></i> 新西兰·皇后镇</a></li>
+            <li><a href="index.html#travel-map"><i class="fa fa-circle-o"></i> 夏威夷·茂宜岛</a></li>
+
+        </ul>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa fa-globe"></i> 旅行足迹
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#travel-map">足迹地图</a></li>
+                <li><a href="experience.html" class="active">旅行体验</a></li>
+                <li><a href="dream.html">梦想目的地</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 核心内容区 -->
+    <main>
+        <section class="section">
+<p>Day1：抵达昆明，入住滇池附近酒店；Day2：昆明滇池→云南民族村；Day3：昆明石林风景区→下午乘高铁前往大理；Day4：大理古城→崇圣寺三塔；Day5：洱海环湖游（喜洲古镇→双廊古镇→南诏风情岛）；Day6：大理苍山→傍晚乘火车前往丽江；Day7：丽江古城→木府；Day8：玉龙雪山→蓝月谷，结束行程。</p>
+<h2 id='经典景点'>经典景点</h2>
+<p><strong>滇池</strong>：云南省最大的淡水湖，素有“高原明珠”之称。每年冬季，成千上万只红嘴鸥从西伯利亚飞来越冬，游客可以投喂海鸥，与它们近距离互动。清晨或傍晚时分，滇池的日出日落更是美不胜收。</p>
+<p><strong>洱海</strong>：大理“风花雪月”四景之一，形如耳朵，故名洱海。环湖游是体验洱海美景的最佳方式，沿途可以欣赏到喜洲古镇的白族民居、双廊古镇的文艺小店，还能登上南诏风情岛，俯瞰洱海全景。</p>
+<p><strong>玉龙雪山</strong>：北半球最南的雪山，主峰扇子陡海拔5596米，终年积雪不化。乘坐大索道登上雪山，近距离感受雪山的巍峨壮丽；山下的蓝月谷，湖水湛蓝如宝石，因形似月牙而得名，景色绝美。</p>
+<h2 id='当地美食'>当地美食</h2>
+<p><strong>昆明：过桥米线</strong>：以鸡汤为底，搭配米线、鸡肉、火腿、蔬菜等食材，汤汁鲜美，米线爽滑。食用时先将滚烫的鸡汤倒入碗中，再放入各种食材，体验独特的“过桥”吃法。</p>
+<p><strong>大理：酸辣鱼</strong>：选用洱海鱼为原料，加入酸木瓜、辣椒等调料烹制而成，酸辣开胃，鱼肉鲜嫩。此外，大理的乳扇、饵块也是当地特色美食，乳扇可以烤着吃或炸着吃，奶香浓郁；饵块则可以炒着吃或煮着吃，口感软糯。</p>
+<p><strong>丽江：腊排骨火锅</strong>：选用丽江本地腊排骨，搭配土豆、豆芽、青菜等食材煮制而成，排骨肉质紧实，汤汁浓郁。吃火锅时再配上一碗丽江粑粑，香脆可口，回味无穷。</p>
+        </section>
+    </main>
+
+    <!-- 底部版权信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fa fa-globe"></i> 旅行足迹地图
+                </div>
+                <p>记录每一步旅行的美好回忆 © 2025 版权所有</p>
+                <p>任奕安 © 软件技术2025-04</p>
+                <p>238307224</p>
+                <!-- 备案信息区域 -->
+                <div class="flex flex-col items-center md:items-end space-y-2">
+                    <!-- 备案号链接 -->
+                    <a href="https://beian.miit.gov.cn"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="beian-link bg-white bg-opacity-20 backdrop-blur-sm rounded-lg px-6 py-3 text-sm font-medium hover:bg-opacity-30">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        冀ICP备12345678号-1
+                    </a>
+                    <!-- 公安备案号（可选） -->
+                    <div class="flex items-center space-x-4 text-sm text-blue-100">
+                        <a href="http://www.beian.gov.cn"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="hover:text-white transition-colors">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            冀公网安备 11010502012345号
+                        </a>
+                    </div>
+                <div class="social-links">
+                    <a href="#"><i class="fa fa-weibo"></i></a>
+                    <a href="#"><i class="fa fa-wechat"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

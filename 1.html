@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本京都</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+    /* 左侧导航栏样式 */
+    .sidebar {
+        position: fixed;
+        top: 70px; /* 与顶部导航栏高度一致 */
+        left: 0;
+        height: calc(100vh - 70px);
+        width: 250px;
+        background-color: #2c3e50;
+        color: white;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-menu {
+        list-style: none;
+        padding: 20px 0;
+    }
+
+    .sidebar-menu li {
+        padding: 0 20px;
+    }
+
+    .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        color: #ecf0f1;
+        text-decoration: none;
+        transition: all 0.3s;
+        border-radius: 6px;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .sidebar-menu .menu-title {
+        padding: 15px 20px 5px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #bdc3c7;
+        letter-spacing: 1px;
+    }
+
+    /* 侧边栏触发器 */
+    .sidebar-toggle {
+        position: fixed;
+        left: 20px;
+        top: 85px;
+        z-index: 1000;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s;
+    }
+
+    .sidebar-toggle:hover {
+        background-color: #2980b9;
+    }
+
+    /* 主内容区调整 */
+    main {
+        transition: margin-left 0.3s ease;
+        padding: 80px 20px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .sidebar.active ~ main {
+        margin-left: 250px;
+    }
+
+    /* 遮罩层 */
+    .sidebar-backdrop {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 998;
+        display: none;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    /* 导航栏 */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background-color: #2c3e50;
+        color: white;
+        z-index: 997;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+    }
+
+    .nav-links a {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+        color: #3498db;
+    }
+
+    /* 内容样式 */
+    .section {
+        margin-bottom: 60px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        color: #3498db;
+        margin: 30px 0 20px;
+    }
+
+    p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #34495e;
+        margin-bottom: 20px;
+    }
+
+    strong {
+        color: #2c3e50;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    li {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #34495e;
+    }
+
+    .highlight-box {
+        background-color: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 0 4px 4px 0;
+    }
+
+    /* 底部版权信息 */
+    .footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 40px 0;
+        margin-top: 60px;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+        color: #3498db;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+        /* 隐藏顶部导航栏 */
+        .navbar {
+            display: none;
+        }
+        
+        /* 调整侧边栏位置 */
+        .sidebar {
+            top: 0;
+            height: 100vh;
+            width: 220px;
+        }
+        
+        .sidebar-backdrop {
+            top: 0;
+        }
+        
+        /* 调整触发器位置 */
+        .sidebar-toggle {
+            top: 20px;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+        }
+        
+        /* 调整内容区 */
+        main {
+            padding-top: 80px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+        
+        .container {
+            padding: 0 15px;
+        }
+        
+        /* 调整侧边栏激活时的主内容区 */
+        .sidebar.active ~ main {
+            margin-left: 0;
+        }
+        
+        /* 调整页脚 */
+        .footer-content {
+            text-align: center;
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+    }
+
+    /* 小屏手机适配 */
+    @media (max-width: 480px) {
+        .sidebar-toggle {
+            width: 40px;
+            height: 40px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        h2 {
+            font-size: 1.3rem;
+        }
+        
+        p, li {
+            font-size: 1rem;
+        }
+    }
+
+    .sidebar-menu a:has(.fa-circle-o) {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .sidebar-menu a:has(.fa-check-circle) {
+        opacity: 1;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航栏触发器 -->
+    <button class="sidebar-toggle">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- 遮罩层 -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="menu-title">主导航</li>
+            <li><a href="index.html#home"><i class="fa fa-home"></i> 首页</a></li>
+            <li><a href="index.html#travel-map"><i class="fa fa-map"></i> 足迹地图</a></li>
+            <li><a href="experience.html" class="active"><i class="fa fa-camera"></i> 旅行体验</a></li>
+            <li><a href="dream.html"><i class="fa fa-star"></i> 梦想目的地</a></li>
+
+            <li class="menu-title">已打卡地区</li>
+            <li><a href="index.html#travel-map"><i class="fa fa-check-circle"></i> 日本·京都</a></li>
+            <li><a href="index.html#travel-map"><i class="fa fa-check-circle"></i> 冰岛·雷克雅未克</a></li>
+            <li><a href="#"><i class="fa fa-check-circle"></i> 中国·江南</a></li>
+
+            <li class="menu-title">待解锁地区</li>
+            <li><a href="index.html#travel-map"><i class="fa fa-circle-o"></i> 新西兰·皇后镇</a></li>
+            <li><a href="index.html#travel-map"><i class="fa fa-circle-o"></i> 夏威夷·茂宜岛</a></li>
+
+            <li class="menu-title">旅行工具</li>
+            <li><a href="#"><i class="fa fa-suitcase"></i> 行李清单</a></li>
+            <li><a href="#"><i class="fa fa-calendar"></i> 旅行计划</a></li>
+            <li><a href="#"><i class="fa fa-money"></i> 预算计算器</a></li>
+        </ul>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa fa-globe"></i> 旅行足迹
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#travel-map">足迹地图</a></li>
+                <li><a href="experience.html" class="active">旅行体验</a></li>
+                <li><a href="dream.html">梦想目的地</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 核心内容区 -->
+    <main>
+        <section class="section">
+<p>日本京都，这座千年古都，是我心中最接近“时间暂停”的地方。<br/>以下是一份2025年最新、可“照搬”的3天2夜京都沉浸式体验行程，附带只有本地人才知道的“隐藏开关”。  </p>
+<hr />
+<h3 id='0-抵达前先做3件事'>0. 抵达前先做3件事</h3>
+<ol start='' >
+<li>在「Klook」提前订「京阪电车 1-day pass」+「南禅寺 顺正汤豆腐」午市套餐，比现场便宜 15%。  </li>
+<li>手机装「Kyoto City AR」App，对着寺庙屋檐能自动叠加班驳光影+历史弹幕，像开“平行时空滤镜”。  </li>
+<li>在便利店买「京都限定 抹茶KitKat×Yatsuhashi」组合，当手信不撞款，拆开先吃一条，甜度刚好配煎茶。  </li>
+
+</ol>
+<hr />
+<h3 id='d1--清晨630--先让时间倒流'>D1  清晨6:30  先让时间倒流</h3>
+<ul>
+<li>伏见稻荷大社「千本鸟居」逆走<br/>大多数人从正面涌入，你直接坐「南5」公交到「稻荷站」后门，倒着上山。第一缕阳光穿过朱红鸟居时，整条山道只有你与狐狸石像。爬到四辻口（约40 min）往回看，鸟居像一条赤色隧道直插云雾——这时再打开「Kyoto City AR」，会看到虚拟狐狸御守从头顶跃过，记得点“接住”，能领一张电子御守（当天在神社事务所可换实体）。  </li>
+<li>8:00  伏见「稻荷茶寮」吃狐乌冬<br/>店门口有口老井，老板会递给你“井水煮的”第一杯茶汤，带淡淡杉木香。点「稻荷狐乌冬+油豆腐套餐」，油豆腐先烤再浸甜汁，边缘焦脆像焦糖。  </li>
+<li>10:00  跳上「京阪本线」3站→「清水五条」<br/>把行李寄存在「清水寺」脚下新开业的「智能储物柜墙」（支持中文扫码），然后钻进「二年坂」旁边的小巷——<br/>隐藏开关：<br/>找到「にしんのあぶりもち」这家只有6席的烤团子店，11点才开门，但老板10:30会在门口炭烤，提前10分钟去，他会给你一串“试验品”——边缘焦黑、内心糯米拉丝，蘸白味噌酱，配免费麦茶。  </li>
+<li>11:30  清水寺「地主神社」求「良缘静音铃」<br/>2025年限定，把铃铛挂在神社北侧新设的「静音架」，摇铃不会响，只在你手机App里发出风铃音效——寓意“只让对的人听见”。  </li>
+<li>12:30  祗园「Hosokawa」吃「鯖寿司」<br/>米其林一星，只做午市。师傅会把烤过的青花鱼薄片铺在寿司饭上，用桧木盒压30分钟，上桌前浇一勺“外婆配方”的甘口酱油。坐在吧台能看见他手边的小碟里放着一片“樱花熏鱼皮”，那是给 solo traveler 的隐藏小菜，只要你主动问“今天鱼皮去哪里了”，他就笑着递给你。  </li>
+<li>14:30  回酒店洗一个“柚子汤”<br/>订「Hotel The Celestine Kyoto Gion」的「角落房」，浴缸正对白川。客房部会在你入住时送一颗“冷冻柚子”，泡在热水里，整间房瞬间变成冬天的柚子温室。  </li>
+<li>16:00  祗园「白川南通」等艺伎<br/>别在「花见小路」人挤人，走到「白川南通」尽头的小石桥，18:00前后艺伎去置屋赴约，木屐声在石板路上像节拍器。带一颗「抹茶巧克力」当道具，艺伎经过时对她点头微笑，她可能会回你一个“指尖轻触”的招呼（别拍照，用眼睛存档）。  </li>
+<li>19:00  「进进堂」晚餐——京都人的深夜食堂<br/>点「味噌猪排+生鸡蛋拌饭」，猪排先炸再刷味噌酱回炉，边缘焦脆。店里灯光昏黄，隔壁大叔会递给你一张「今日京都日夜报纸」——其实是他们自己印的迷你单页，背面空白，可写明信片，店员会帮你贴邮票寄回国。  </li>
+
+</ul>
+<hr />
+<h3 id='d2--把京都折叠进一张和纸'>D2  把京都折叠进一张和纸</h3>
+<ul>
+<li>5:45  大原「三千院」听“露水钟声”<br/>前一晚在「京都站」地下巴士站买「大原·鞍马一日券」，第二天坐「19路」头班车。6:30抵达时寺门刚开，住持会敲一声“露水钟”，钟声在湿润的空气里像涟漪。绕到「有清园」茶庭，蹲下来看苔庭，叶尖的露水同步落在石灯笼顶部，像给古灯戴了水晶帽。<br/>隐藏开关：<br/>在「往生极乐院」后门的「苔手水舍」旁，有一块无字石碑，用手掌压10秒，再打开App，会触发AR“平安贵族”在你旁边洗手，可以合影。  </li>
+<li>8:00  「大原豆腐」吃「汤豆腐朝定食」<br/>用当地「九条葱」当柴火，锅底只有昆布与井水，豆腐像布丁一样晃。老板会递给你一只「小竹勺」，告诉你“第一口不要蘸酱”，空口吃，能尝到淡淡栗子甜——因为豆子是用大原山泉泡一夜。  </li>
+<li>10:00  坐车北上→「鞍马」<br/>下车后别急着上山，先在「鞍马站」门口买「烤栗子味噌团子」，外皮焦脆，内馅是味噌栗子泥。  </li>
+<li>11:00  爬「鞍马寺」后山「奥之院」<br/>大多数人走到「金毗罗堂」就回头，你继续沿「魔王杉」古径走30分钟，到「牛若丸修行洞」。洞口有铁门，但门侧小窗没锁，伸手机进去拍一张，App会自动合成“源义经”在洞里舞剑的AR剪影。  </li>
+<li>13:00  坐「鞍马缆车」下到山腰，转「森林滑梯」<br/>2025年新开的「鞍马森林滑梯」全长250m，穿和服也能玩，工作人员会给你一条“和服保护围裙”，滑下去像穿越一片枫叶隧道。  </li>
+<li>14:30  回市区「西阵」<br/>去「塩野都」吃「丹波黑豆咖喱乌冬」，咖喱用西阵老铺“塩野”味噌调，乌冬里卷着一条“黑豆年糕”，咬开像爆浆巧克力。  </li>
+<li>16:00  「西阵织会馆」DIY「和纸灯罩」<br/>不是普通明信片，而是用西阵织余料+京和纸，做一张“会发光的明信片”。老师傅会帮你把织锦碎片压成半透明，装纽扣电池，晚上回酒店一按，整张明信片像缩小版金阁寺。  </li>
+<li>18:30  「梅小」吃「京极流会席」<br/>只有8席，需提前1个月订。先付是「鲷鱼茶渍」，主厨会把热茶汤倒进碗里，鲷鱼瞬间由生转熟，像变魔术。吃到第五道「松茸土瓶蒸」时，服务员会给你一只“无耳杯”——其实是让你直接对瓶吹，喝到最后会掉出一朵“食用菊花”，像秘密花园。  </li>
+<li>21:00  回酒店泡澡+「夜啤酒」<br/>在便利店买「京都限定 柚子IPA」，冰到10℃，边泡柚子汤边喝，窗外白川夜枫被路灯照成珊瑚色。  </li>
+
+</ul>
+<hr />
+<h3 id='d3--把京都打包带走'>D3  把“京都”打包带走</h3>
+<ul>
+<li>6:00  岚山「竹林」反向走<br/>坐「岚电」到「岚山站」，下车后先别去竹林，右转过桥到「岚山猴子公园」门口，再倒着沿「竹林小径」往回走。此时旅行团还没上山，竹影在晨雾里像水墨，偶尔有当地大叔遛狗，狗项铃“叮铃”声在竹林里像风铃。  </li>
+<li>7:00  「%△」喝「京都烘焙」第一杯<br/>岚山店7点开门，用「宇治玉露」做冷萃，第一杯免费加“竹炭泡沫”，喝起来像带烟熏的抹茶。  </li>
+<li>8:00  「渡月桥」看「桂川晨雾」<br/>站在桥中央，把手机贴在栏杆，App会触发“平安时代”的渡月桥AR，桥身变成朱红色，贵族牛车与你擦肩而过。  </li>
+<li>9:00  「嵯峨野」小火车「货厢改造座位」<br/>提前在「嵯峨野观光铁道」官网订「5号车厢·货厢座」，原本是运货的平板车，2025年改成“无窗敞篷座”，枫叶触手可及，记得戴围巾。  </li>
+<li>10:30  「保津川漂流」反向漂<br/>大多数游客从「岚山」上船，你坐小火车到「龟冈」后，反向漂流回岚山。船家用长篙撑船，在「龙王峡」段会唱一段「保津川音头」，唱到高音时水花刚好溅起，像天然水花特效。  </li>
+<li>12:00  「嵯峨豆腐」吃「汤豆腐便当」<br/>下船后走到「嵯峨豆腐」总店，点「汤豆腐便当」，豆腐装在“漆器保温盒”，打开盖子还在咕嘟。配菜是「丹波紫薯」做的「紫薯麸」，像紫色海绵吸满汤汁。  </li>
+<li>13:30  回市区「京都站」<br/>把行李寄存在「站前立体自行车停车场」里的「智能柜」（支持支付宝），然后钻进「Porta地下街」——<br/>隐藏开关：<br/>找到「京都抹茶Lab」自动贩卖机，投入1000日元，会掉出一瓶「未稀释抹茶原液」，瓶底有一颗“冷冻抹茶球”，摇一摇变成分层拿铁，插上吸管先喝上层清苦，再吸到下层奶盖，像喝“抹茶啤酒”。  </li>
+<li>15:00  「京都铁道博物馆」开「蒸汽火车模拟器」<br/>提前在官网预约「司机体验」，穿真实制服，推油门时座椅会震动，挡风玻璃喷出白雾，像穿越大正时代。  </li>
+<li>17:00  「伊势丹」11楼「空中京都」<br/>在「空中京都」露台看夕阳，右手是东山三十六峰，左手是站前现代高楼，古今对折。买一张「京阪电车一日券」当书签，背面空白处写“我在京都折叠了时间”，拍照发社交媒体，定位选“京都站”，标签#时间暂停术。  </li>
+<li>18:30  「The Kitchen Kanra」吃「最后一顿」<br/>点「鸭南蛮+九条葱+生蛋黄」拌饭，把蛋黄划破瞬间像落日。吃完把筷子插进「筷子纸套」折成“迷你鸟居”，带回国插在笔筒，当“移动京都”。  </li>
+<li>20:00  坐「HARUKA」去关西机场<br/>在车厢里打开「京都抹茶Lab」那瓶原液，加热水冲泡，整节车厢都是抹茶香。窗外夜色里，京都塔像一盏离别的灯。  </li>
+
+</ul>
+<hr />
+<h3 id='彩蛋把京都留在身上'>彩蛋：把“京都”留在身上</h3>
+<ul>
+<li>在「清水寺」脚下「音羽山」小店，买一条「水音手链」——瓷珠里真的封了一滴「音羽瀑布」水，摇晃时能听见“哗啦”声，像把京都的溪流戴在手腕。  </li>
+<li>在「西阵」买一块「带裂纹的织锦碎片」，老板会送你一张“修补贴纸”，回家贴在手机壳背面，裂纹像枫叶脉络，每次摸到都想起京都的“侘寂”。  </li>
+
+</ul>
+<hr />
+<h3 id='一句话总结'>一句话总结</h3>
+<p>京都的魔法在于：<br/>当你以为自己在“参观”它时，它早已悄悄把你变成了它的一部分。</p>
+        </section>
+    </main>
+
+    <!-- 底部版权信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fa fa-globe"></i> 旅行足迹地图
+                </div>
+                <p>记录每一步旅行的美好回忆 © 2025 版权所有</p>
+                <p>任奕安 © 软件技术2025-04</p>
+                <p>238307224</p>
+                <!-- 备案信息区域 -->
+                <div class="flex flex-col items-center md:items-end space-y-2">
+                    <!-- 备案号链接 -->
+                    <a href="https://beian.miit.gov.cn"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="beian-link bg-white bg-opacity-20 backdrop-blur-sm rounded-lg px-6 py-3 text-sm font-medium hover:bg-opacity-30">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        冀ICP备12345678号-1
+                    </a>
+                    <!-- 公安备案号（可选） -->
+                    <div class="flex items-center space-x-4 text-sm text-blue-100">
+                        <a href="http://www.beian.gov.cn"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="hover:text-white transition-colors">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            冀公网安备 11010502012345号
+                        </a>
+                    </div>
+                <div class="social-links">
+                    <a href="#"><i class="fa fa-weibo"></i></a>
+                    <a href="#"><i class="fa fa-wechat"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
