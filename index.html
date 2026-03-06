@@ -1,0 +1,25 @@
+<!DOCTYPE html><!--这是文档生命，表示此页面是html文件-->
+<html lang="en"><!--他是html文档的根标签，所有html文档的内容都要放在其中-->
+<head><!--是文档的头部，用来存放头部信息一般包含样式表的引用，网页的名称，解码的方式等等-->
+    <meta charset="UTF-8"><!--浏览器解码方式-->
+     <!--普通标签（一般标签）成对的标签有开始标签和结束标签
+    自闭合标签，只有一个标签，没有结束标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>这是我的第一个网页</title><!--用来设定网页的名称 -->
+    <style>
+        /* css选择器:元素（标签）选择器 ,由标签名称+英文大括号构成*/
+        p{
+            font-size: 35px;
+            /* 设定字体大小 */
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css"><!--外部样式表，link标签是用来引入外部资源的标签，rel属性用来指定引入资源的类型，href属性用来指定引入资源的路径-->
+</head>
+<body><!--html部分要学习各种标签，css部分要学习各种属性对-->
+    <p style="color: red;">
+        <!-- css行内样式，直接把样式写到了需要修改样式的开始标签内 -->
+        <!--标签是常用的文本标签-->
+        我是一名大学生。
+    </p>
+</body>
+</html>
