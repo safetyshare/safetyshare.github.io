@@ -23,7 +23,9 @@
 .card-grid {
     display: flex;
     flex-wrap: wrap;
+    /* CSS的flex-wrap属性用于设置弹性容器中的项目是单行显示还是多行显示。当设置为wrap时，如果项目溢出容器边界，它们将被打断到多个行中。 */
     gap: 25px;
+    /* 使用 gap 统一设置子元素间的水平和垂直间距，简化样式管理 */
     margin-left: 80px;
 }
 .card {
