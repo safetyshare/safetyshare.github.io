@@ -1,0 +1,56 @@
+.tmallcenter{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", sans-serif;
+    background-color: #f8f8f8;
+    padding: 40px 20px;
+    max-width: 990px;
+    margin: 0 auto;
+    text-align: center;
+}
+.nav-title {
+    font-size: 25px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 20px;
+}
+.nav-subtitle {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 50px;
+}
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-left: 80px;
+}
+.card {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center;
+}
+.card-icon {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+.card-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 20px;
+}
+.card-desc {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+.card-link {
+    font-size: 16px;
+    color: #c4a876;
+    text-decoration: none;
+}
